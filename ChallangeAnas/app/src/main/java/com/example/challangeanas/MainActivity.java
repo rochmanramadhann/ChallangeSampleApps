@@ -4,8 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -27,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
     //private ArrayList<String> data = new ArrayList<>();
     private ArrayList<getData> isiNews = new ArrayList<>();
 
+    SwipeRefreshLayout refreshLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +39,22 @@ public class MainActivity extends AppCompatActivity {
 
         rcView = findViewById(R.id.rcview);
         rcView.setHasFixedSize(true);
+
+        refreshLayout = findViewById(R.id.refresh);
+
+        refreshLayout.setOnRefreshListener(() -> new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                refreshLayout.setRefreshing(false);
+
+                final Intent intent = getIntent();
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                finish();
+                overridePendingTransition(0, 0);
+                startActivity(intent);
+                overridePendingTransition(0, 0);
+            }
+        }, 3000));
 
         /*title = findViewById(R.id.judul);
         Name = findViewById(R.id.penulis);
