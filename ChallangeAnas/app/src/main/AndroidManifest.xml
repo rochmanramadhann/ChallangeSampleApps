@@ -18,7 +18,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".detailNews"/>
+        <activity android:name=".detailNews" />
+        <activity android:name=".FavoriteNews"/>
     </application>
 
 </manifest>

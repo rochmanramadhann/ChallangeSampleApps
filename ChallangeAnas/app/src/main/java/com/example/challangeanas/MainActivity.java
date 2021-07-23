@@ -18,6 +18,7 @@ import com.kwabenaberko.newsapilib.NewsApiClient;
 import com.kwabenaberko.newsapilib.models.request.EverythingRequest;
 import com.kwabenaberko.newsapilib.models.response.ArticleResponse;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -82,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
                             data.setLink(response.getArticles().get(i).getUrl());
                             data.setImglink(response.getArticles().get(i).getUrlToImage());
                             data.setTerbit(response.getArticles().get(i).getPublishedAt());
+                            data.setFavorit(false);
                             DataNews.add(data);
                         }
 
@@ -110,6 +112,12 @@ public class MainActivity extends AppCompatActivity {
         rcView.setAdapter(gridAdapt);
     }
 
+    private void showFavNews() {
+        Intent intent = new Intent(MainActivity.this, FavoriteNews.class);
+        intent.putExtra("data", isiNews);
+        startActivity(intent);
+    }
+
     public boolean onOptionsItemSelected(MenuItem menu) {
         setMenu(menu.getItemId());
         return super.onOptionsItemSelected(menu);
@@ -127,6 +135,9 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.action_grid:
                 showRcGrid();
+                break;
+            case R.id.fav_news:
+                showFavNews();
                 break;
         }
     }

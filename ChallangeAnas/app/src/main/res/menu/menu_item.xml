@@ -9,5 +9,9 @@
         android:id="@+id/action_grid"
         android:title="Mode Gridview"
         app:showAsAction="never"/>
+    <item
+        android:id="@+id/fav_news"
+        android:title="Favorite News"
+        app:showAsAction="never"/>
 
 </menu>
