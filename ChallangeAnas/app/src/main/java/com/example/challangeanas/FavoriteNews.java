@@ -18,6 +18,7 @@ public class FavoriteNews extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favorite_news);
+        getSupportActionBar().setTitle("Favorite News");
 
         rcFavNews = findViewById(R.id.rcfav_news);
         rcFavNews.setHasFixedSize(true);

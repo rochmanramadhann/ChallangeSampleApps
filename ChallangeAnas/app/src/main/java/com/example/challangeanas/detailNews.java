@@ -14,6 +14,7 @@ public class detailNews extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.detailnews);
+        getSupportActionBar().setTitle("Detail News");
 
         editWeb = findViewById(R.id.web);
         editWeb.setWebViewClient(new WebViewClient());
