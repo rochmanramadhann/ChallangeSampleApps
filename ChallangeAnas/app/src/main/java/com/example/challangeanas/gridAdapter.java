@@ -1,9 +1,12 @@
 package com.example.challangeanas;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -18,9 +21,11 @@ import java.util.ArrayList;
 
 public class gridAdapter extends RecyclerView.Adapter<gridAdapter.gridViewHolder> {
     private ArrayList<getData> data;
+    Context context;
 
-    gridAdapter(ArrayList<getData> list) {
+    gridAdapter(ArrayList<getData> list, Context ctx) {
         this.data = list;
+        this.context = ctx;
     }
 
     @NonNull
@@ -41,6 +46,14 @@ public class gridAdapter extends RecyclerView.Adapter<gridAdapter.gridViewHolder
                 .into(holder.imgNews);
 
         holder.title.setText(dt.getJudul());
+        holder.gridLy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, detailNews.class);
+                intent.putExtra("url", dt.getLink());
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -51,11 +64,14 @@ public class gridAdapter extends RecyclerView.Adapter<gridAdapter.gridViewHolder
     class gridViewHolder extends RecyclerView.ViewHolder {
         ImageView imgNews;
         TextView title;
+        LinearLayout gridLy;
+
         gridViewHolder(View view) {
             super(view);
 
             imgNews = view.findViewById(R.id.imgNews);
             title = view.findViewById(R.id.TtlNews);
+            gridLy = view.findViewById(R.id.gridLayout);
         }
     }
 }

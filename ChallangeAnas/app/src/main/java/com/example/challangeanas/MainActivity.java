@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onSuccess(ArticleResponse response) {
                         jumlah = response.getTotalResults();
 
-                        Toast.makeText(MainActivity.this, "berhasil"+jumlah, Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(MainActivity.this, "berhasil"+jumlah, Toast.LENGTH_SHORT).show();
                         for (int i=0; i<15; i++) {
                             getData data = new getData();
                             data.setPenulis(response.getArticles().get(i).getAuthor());
@@ -100,13 +100,13 @@ public class MainActivity extends AppCompatActivity {
     //ArrayList<getData> dtNews
     private void showRcList() {
         rcView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-        listAdapter listAdapt = new listAdapter(isiNews);
+        listAdapter listAdapt = new listAdapter(isiNews, MainActivity.this);
         rcView.setAdapter(listAdapt);
     }
 
     private void showRcGrid() {
         rcView.setLayoutManager(new GridLayoutManager(MainActivity.this, 2));
-        gridAdapter gridAdapt = new gridAdapter(isiNews);
+        gridAdapter gridAdapt = new gridAdapter(isiNews, MainActivity.this);
         rcView.setAdapter(gridAdapt);
     }
 
