@@ -1,8 +1,10 @@
 package com.example.challangeanas;
 
-public class getData {
+import java.io.Serializable;
+
+public class getData implements Serializable {
     String penulis, judul, deskripsi, link, imglink, terbit, isi;
-    int position;
+    boolean favorit;
 
     /*getData(String penulis, String judul, String deskripsi, String link, String imglink, String terbit, String isi) {
         this.penulis = penulis;
@@ -70,12 +72,12 @@ public class getData {
         this.isi = isi;
     }
 
-    public int getPosition() {
-        return position;
+    public boolean getFavorit() {
+        return favorit;
     }
 
-    public void setPosition(int position) {
-        this.position = position;
+    public void setFavorit(boolean favorit) {
+        this.favorit = favorit;
     }
 
 }

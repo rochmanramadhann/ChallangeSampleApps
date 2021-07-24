@@ -1,10 +1,16 @@
 package com.example.challangeanas;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -12,6 +18,7 @@ import com.kwabenaberko.newsapilib.NewsApiClient;
 import com.kwabenaberko.newsapilib.models.request.EverythingRequest;
 import com.kwabenaberko.newsapilib.models.response.ArticleResponse;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -22,11 +29,33 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView rcView;
     private ArrayList<getData> DataNews = new ArrayList<>();
     //private ArrayList<String> data = new ArrayList<>();
+    private ArrayList<getData> isiNews = new ArrayList<>();
+
+    SwipeRefreshLayout refreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        rcView = findViewById(R.id.rcview);
+        rcView.setHasFixedSize(true);
+
+        refreshLayout = findViewById(R.id.refresh);
+
+        refreshLayout.setOnRefreshListener(() -> new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                refreshLayout.setRefreshing(false);
+
+                final Intent intent = getIntent();
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                finish();
+                overridePendingTransition(0, 0);
+                startActivity(intent);
+                overridePendingTransition(0, 0);
+            }
+        }, 3000));
 
         /*title = findViewById(R.id.judul);
         Name = findViewById(R.id.penulis);
@@ -45,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onSuccess(ArticleResponse response) {
                         jumlah = response.getTotalResults();
 
-                        Toast.makeText(MainActivity.this, "berhasil"+jumlah, Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(MainActivity.this, "berhasil"+jumlah, Toast.LENGTH_SHORT).show();
                         for (int i=0; i<15; i++) {
                             getData data = new getData();
                             data.setPenulis(response.getArticles().get(i).getAuthor());
@@ -54,15 +83,12 @@ public class MainActivity extends AppCompatActivity {
                             data.setLink(response.getArticles().get(i).getUrl());
                             data.setImglink(response.getArticles().get(i).getUrlToImage());
                             data.setTerbit(response.getArticles().get(i).getPublishedAt());
+                            data.setFavorit(false);
                             DataNews.add(data);
                         }
 
-                        rcView = findViewById(R.id.rcview);
-                        rcView.setHasFixedSize(true);
-
-                        rcView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-                        listAdapter listAdapt = new listAdapter(DataNews);
-                        rcView.setAdapter(listAdapt);
+                        isiNews.addAll(DataNews);
+                        showRcList();
                     }
 
                     @Override
@@ -71,7 +97,48 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
         );
+    }
 
+    //ArrayList<getData> dtNews
+    private void showRcList() {
+        rcView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+        listAdapter listAdapt = new listAdapter(isiNews, MainActivity.this);
+        rcView.setAdapter(listAdapt);
+    }
 
+    private void showRcGrid() {
+        rcView.setLayoutManager(new GridLayoutManager(MainActivity.this, 2));
+        gridAdapter gridAdapt = new gridAdapter(isiNews, MainActivity.this);
+        rcView.setAdapter(gridAdapt);
+    }
+
+    private void showFavNews() {
+        Intent intent = new Intent(MainActivity.this, FavoriteNews.class);
+        intent.putExtra("data", isiNews);
+        startActivity(intent);
+    }
+
+    public boolean onOptionsItemSelected(MenuItem menu) {
+        setMenu(menu.getItemId());
+        return super.onOptionsItemSelected(menu);
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_item, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    public void setMenu(int mode) {
+        switch (mode) {
+            case R.id.action_list:
+                showRcList();
+                break;
+            case R.id.action_grid:
+                showRcGrid();
+                break;
+            case R.id.fav_news:
+                showFavNews();
+                break;
+        }
     }
 }

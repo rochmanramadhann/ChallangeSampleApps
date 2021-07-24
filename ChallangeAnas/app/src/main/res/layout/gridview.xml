@@ -1,18 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/gridLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
-    <ImageView
-        android:id="@+id/imgNews"
-        android:layout_width="wrap_content"
-        android:layout_height="250dp"/>
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_margin="7dp"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="10dp">
 
-    <TextView
-        android:id="@+id/TtlNews"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center">
+
+            <ImageView
+                android:id="@+id/imgNews"
+                android:layout_width="match_parent"
+                android:scaleType="fitXY"
+                android:layout_height="150dp"/>
+
+            <TextView
+                android:id="@+id/TtlNews"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/imgNews"
+                android:layout_marginTop="3dp"
+                android:justificationMode="inter_word"
+                android:maxLines="2"/>
+
+            <Button
+                android:id="@+id/btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/TtlNews"
+                android:visibility="gone"
+                android:text="Favorite"
+                android:layout_centerHorizontal="true"/>
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
 
 </LinearLayout>
